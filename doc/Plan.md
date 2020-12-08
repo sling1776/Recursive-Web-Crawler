@@ -1,117 +1,123 @@
-*Replace the bold text with your own content*
-
-*Adapted from https://htdp.org/2020-5-6/Book/part_preface.html*
 
 # 0.  From Problem Analysis to Data Definitions
 
-**Problem Analysis is the process of understanding the problem the software
-will address and to document in detail what the software system needs to do.
-In the real world this phase demands close interaction between developers and
-the client.  Ideally, end-users of the system are interviewed for their input.**
-
-**In this course you will receive detailed requirements in the form of the
-assignment description.  I stand-in for the client and end-users when you have
-questions concerning their needs and desires.**
-
-**In this phase of the design process you should use [The Feynman
-Technique](https://www.youtube.com/watch?v=tkm0TNFzIeg) To ensure that you
-understand what is being asked of you.**
-
-**The output of this phase of the development process is a restatement of the
-requirements in your own words.  Putting new problems into your own words will
-help you identify your "Known knowns" and your "known unknowns".**
-
-**As part of your restatement of the problem identify information that must be
-represented and decide how to represent in the chosen programming language.**
-
-**Formulate data definitions and illustrate them with examples.**
+make a program that will access every link on a website up to a max number. If a link has 
+been repeated, it will not re-access that link. After it accesses the link, it will print
+the url in a tiered view to help the user see how deep it goes.
 
 
 # 1.  System Analysis
 
-**Analyze the flow of data throughout the program.  Does the program get input
-from the user?  If so, does it come from interactive prompts or from
-command-line arguments?  Is data incorporated from a file on the disk, from a
-database or from the internet?**
-
-**How is output given?  On the screen in the form of text or graphics?  Are
-output files created, and what form do they take?**
-
-**Identify the non-trivial formulas you need to create.  If there aren't any then
-state "no formulas" in this section.**
-
-**State what kind of data each desired function consumes and produces.  Formulate
-a concise description of what the function computes.  Define a stub that lives
-up to the signature.**
-
+probably going to use recursion and call a crawl() method over and over again. 
 
 # 2.  Functional Examples
 
-**Design a process for obtaining the output from the input.  Consider both *good*
-and *bad* inputs.  Find or create examples of both kinds of input.**
+check for valid url.
+if none supplied:
+    exit.
+if not valid
+    exit
+check for valid maxDept number 
+if not valid or not supplied:
+    set a default value of 3.
+call crawl() on the url and give it the max depth.
 
-**Work out problem examples on paper, on a whiteboard or some other medium that
-is *not* your computer.  It is a mistake to begin writing executable code
-before you thoroughly understand what form the algorithm(s) must take.**
-
-**Instead, describe components of the system in *"pseudocode"*.  Expect to make
-lots of mistakes at this point.  You will find that it is much easier to throw
-away pseudocode than real code.**
-
-**Manually work through several examples that illustrate the program's overall
-purpose, as well as the purpose of each component of the finished system.  You
-will converge on a correct solution much faster if you feel comfortable making
-mistakes as you go.**
-
-**This phase involves the use of many levels of abstraction to decompose the
-problem into manageable components, and design strategies for implementing each
-component.  Components may be functions, modules or classes.**
+crawl(url, depth, maxDepth, visited)
+    if depth > maxDepth
+        return
+    try:
+        access url
+        add to visited set
+        if there was an error visiting the site 
+            display error to the user and return.
+        print the url to the screen
+        get all the links from the HTML file.
+        make sure the url is and absolute url.
+        if not, then make it an absolute url.
+        if the url starts with HTTP
+            if the url not in visited
+                call crawl on the url. 
+    catch:
+        exception if error in accessing the URL.
 
 
 # 3.  Function Template
 
-**Combine the function stubs written in step #2 with pseudocode from step #3.
-Comment out the pseudocode, leaving a valid program that compiles/runs without
-errors.  At this stage your program doesn't quite work, but it also doesn't
-crash.**
-
 
 # 4.  Implementation
-
-**This is the only part of the process focused on writing code in your chosen
-programming language.**
-
-**One by one translate passages of pseudocode into valid code.  Fill in the gaps
-in the function template.  Exploit the purpose statement and the examples.**
-
-**If you were thorough in the previous steps and are familiar with your
-programming system this part will go by very quickly and the code will write
-itself.**
-
-**When you are learning a new programming language or an unfamiliar library this
-phase can be slow and difficult.  As you gain experience with the relevant
-technologies you will spend less and less time in this phase of the process.**
-
+Done.
 
 # 5.  Testing
 
-**Articulate the examples given in step #2 as tests and ensure that each
-function passes all of its tests.  Doing so discovers mistakes.  Tests also
-supplement examples in that they help others read and understand the definition
-when the need arises—and it will arise for any serious program.**
+Run the program like so:
 
-**As bugs are discovered and fixed, devise new test cases that will detect these
-problems should they return.**
+`
+$ python crawler.py URL [optional-maxDepth]
+`
 
-**If you didn't come across any bugs (lucky you!) think of a possible flaw and a
-test that can be employed to screen for it.**
+Fill in the URL with a url that has the scheme "HTTP" or "HTTPS". The maxDepth argument
+is optional and will default to 3 if the user enters a bad input or neglects to enter it. 
 
-**At a minimum you should create a document explaining step-by-step how a
-non-technical user may manually test your program to satisfy themselves that it
-operates correctly.  Explain the entire process starting how to launch the
-program, what inputs they should give and what results they should see at every
-step.  Provide test cases of good and bad inputs to catch both false positives
-and false negatives.  Any deviation from the expected outputs are errors.**
+To test: run:
 
-**The ideal is to write an automated test to avoid all manual labor beyond
-launching the test.**
+`
+$ python crawler.py http://unnovative.net/level0.html
+`
+
+This will take you through 3 levels of this particular website's links:
+
+```
+$ python crawler.py http://unnovative.net/level0.html 10
+Crawling from http://unnovative.net/level0.html to a maximum depth of 10 links
+http://unnovative.net/level0.html
+    http://unnovative.net/level1.html
+        http://unnovative.net/level2.html
+            http://unnovative.net/level3.html
+                http://unnovative.net/level4.html
+                    http://unnovative.net/level5.html
+                        http://unnovative.net/level6.html
+                            http://unnovative.net/level7.html
+                                http://unnovative.net/level8.html
+                                    http://unnovative.net/level9.html
+                                        http://unnovative.net/level10.html
+```
+
+If you go up to 30 it will wrap back to 0 at 15 and so will end the program after that.
+
+```
+$ python crawler.py http://unnovative.net/level0.html 30
+Crawling from http://unnovative.net/level0.html to a maximum depth of 30 links
+http://unnovative.net/level0.html
+    http://unnovative.net/level1.html
+        http://unnovative.net/level2.html
+            http://unnovative.net/level3.html
+                http://unnovative.net/level4.html
+                    http://unnovative.net/level5.html
+                        http://unnovative.net/level6.html
+                            http://unnovative.net/level7.html
+                                http://unnovative.net/level8.html
+                                    http://unnovative.net/level9.html
+                                        http://unnovative.net/level10.html
+                                            http://unnovative.net/level11.html
+                                                http://unnovative.net/level12.html
+                                                    http://unnovative.net/level13.html
+                                                        http://unnovative.net/level14.html
+                                                            http://unnovative.net/level15.html
+```
+
+A bad url does not contain the scheme "http" and/or the location. 
+This program assumes that a location must contain a "." it is not smart enough beyond 
+that to tell if the url is valid. it will attempt to access the url and then will throw
+an exception if it cannot reach it. 
+
+```
+$ python crawler.py http://unnovative
+Error: Invalid URL supplied.
+Please supply an absolute URL to this program
+```
+```
+$ python crawler.py http://unnovative.
+Crawling from http://unnovative. to a maximum depth of 3 linkscrawl(): HTTPConnectionPool(host='unnovative.', port=80): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x03C48460>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+```
+
+
